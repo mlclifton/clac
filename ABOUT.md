@@ -1,0 +1,1 @@
+**clac** is a mobile-first Progressive Web App for composing and rendering Causal Loop Diagrams — a systems-thinking tool used to map feedback relationships between variables in a complex system — from a concise YAML-like text specification, with the diagram rendering in real-time as the user types.
