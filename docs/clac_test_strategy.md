@@ -35,6 +35,8 @@ This document is a living artefact. It should be updated when a tooling choice i
 
 **Don't test the rendered DOM in detail.** Asserting that a specific SVG `<path>` has a particular `d` attribute value is brittle and adds no confidence beyond what a structural/visual check provides. Test that nodes and links exist with the right identities; leave pixel-exact assertion to visual regression.
 
+**Write tests before implementation (red → green → refactor).** Tests for an epic should be written and committed before the epic is implemented. The first run is expected to be entirely red — a failing test suite against unwritten code is the correct starting state, not a problem to fix before committing. Once the implementation is complete the suite should turn green. This cycle applies at every level: a missing devDependency (e.g. Vitest not yet installed) is the first red; installing it is the first green step before implementation begins.
+
 ---
 
 ## 3. Test Types and When to Use Each
@@ -64,6 +66,8 @@ Rationale:
 - Supports `jsdom` and `happy-dom` environments for tests that need a DOM without a real browser.
 
 Prefer `happy-dom` over `jsdom` for DOM-level tests — it is faster and handles SVG slightly better.
+
+**Version constraint:** The project targets Node 18 (see README). Vitest v3+ requires Node 20+; pin to **`vitest ^2`** to stay compatible with Node 18. If the runtime is upgraded to Node 20+ in a future epic, the constraint may be relaxed.
 
 Configuration hint (to be confirmed during setup):
 
@@ -238,6 +242,7 @@ Use Playwright for all of these. Parameterise the mobile viewport test with Play
 ## 6. Test File Conventions
 
 - Unit and integration tests live alongside source files: `src/parser/parser.test.js`.
+- Scaffold and build-environment verification tests live in `tests/scaffold/`. These tests exercise the project structure, configuration files, and build commands rather than application logic — they have no source module to live alongside.
 - E2E tests live in a top-level `tests/e2e/` directory.
 - Visual regression baselines (if used) live in `tests/visual/`.
 - Test fixture data (example specs, expected models) lives in `tests/fixtures/`.
